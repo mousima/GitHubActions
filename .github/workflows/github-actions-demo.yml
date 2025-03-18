@@ -11,7 +11,7 @@ on:
       - main
   schedule:
     - cron: '15 6 * * 0'
-  workflow_dispatch:  # This should be under the `on` key, not on its own line
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,7 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Name
-        run: echo "${{ toJson(github) }}"
+        run: | 
+            event_name = ${{ github.event_name }}
+            echo "The event that triggered this workflow is: $event_name"
 
       - name: Repo Name
         run: |
+          # Extract branch name from github.ref
+          branch_name=${{ github.ref }}
+          if [[ $branch_name == refs/heads/* ]]; then
+            branch_name=${branch_name#refs/heads/}
+          fi
+          echo "The current branch is: $branch_name"
+
+      - name: List all files in the repository
+        run: |
+          echo "Listing all files in the repository:"
+          ls -R
