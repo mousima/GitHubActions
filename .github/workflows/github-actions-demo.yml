@@ -18,9 +18,6 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Name
-        run: echo "The event that triggered this workflow is:"
-
       - name: Repo Name
         run: |
           # Extract branch name from github.ref
